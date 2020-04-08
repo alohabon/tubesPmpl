@@ -1,0 +1,50 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class m_pembeli extends CI_Model
+{
+
+
+	public function get_data()
+	{
+		$query = $this->db->query('SELECT * from pembeli');
+		return $query->result();
+	}
+
+	public function tambah($data)
+	{
+
+		$query = $this->db->get_where('pembeli', array('kdPembeli' => $data['kdPembeli']));
+ 		$confirm = $query->num_rows();
+		if($confirm==0){
+			$this->db->insert('pembeli', $data);
+			return TRUE;
+		} else {
+			return FALSE;
+		}	
+	}
+
+	public function hapus($data)
+	{
+		$confirm = $this->db->query("DELETE FROM pembeli WHERE kdPembeli = '".$data."';");
+		if($confirm){
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function edit($data)
+	{
+		$this->db->where('kdPembeli', $data['kdTrx']);
+		$confirm = $this->db->update('pembeli', $data);
+		if($confirm){
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+}
+
+
+?>
